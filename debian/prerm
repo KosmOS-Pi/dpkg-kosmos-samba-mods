@@ -1,0 +1,6 @@
+#! /bin/bash
+set -e
+
+echo "[kosmos-samba-mods] Removing package (Samba configurations will remain)."
+exit 0
+

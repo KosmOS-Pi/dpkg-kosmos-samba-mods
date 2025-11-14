@@ -1,0 +1,2 @@
+writable-homes.conf /etc/samba/conf.d/
+no-printing.conf /etc/samba/conf.d/

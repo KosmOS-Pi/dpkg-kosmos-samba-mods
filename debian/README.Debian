@@ -1,0 +1,10 @@
+kosmos-samba-mods for Debian
+
+This package enables automatic synchronization between Linux passwords
+and Samba passwords using pam_smbpass and enables automatic user homes
+sharing with write permission.
+
+It also forces the primary user (first UID >= 1000) to change their password
+at next login so that Samba can acquire the correct password.
+
+ -- Matteo Piscitelli <matteo@matteopiscitelli.it>  Fri, 14 Nov 2025 16:40:52 +0100

@@ -1,0 +1,19 @@
+Source: kosmos-samba-mods
+Section: admin
+Priority: optional
+Maintainer: Matteo Piscitelli <matteo@matteopiscitelli.it>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.5.1
+Homepage: https://kosmos-pi.org
+Rules-Requires-Root: no
+
+Package: kosmos-samba-mods
+Architecture: all
+Multi-Arch: foreign
+Depends: ${misc:Depends}, samba, adduser
+Description: Enables and preconfigures Samba for KosmOS users.
+ This package enables automatic Samba password sync to keep
+ Samba user password in sync with system user password.
+ .
+ It also enables automatic user homes sharing with write
+ permission.
