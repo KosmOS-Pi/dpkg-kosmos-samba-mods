@@ -3,13 +3,26 @@ set -e
 
 SMB_CONF="/etc/samba/smb.conf"
 INCLUDE_DIR="/etc/samba/conf.d"
-INCLUDE_LINE="include = $INCLUDE_DIR/*.conf"
+INCLUDE_LINE="include = $INCLUDE_DIR/kosmos-samba.conf"
 
-DEFAULT_SMB_PASS="KosmOSamb@"
+DEFAULT_SMB_PASS='KosmOSamb@'
 
 log() {
     echo "[kosmos-samba-mods] $*"
 }
+
+log "Configuring Samba..."
+
+# Insert include line if not present
+if ! grep -qF "$INCLUDE_LINE" "$SMB_CONF"; then
+    log "Adding include directive to smb.conf"
+    printf "\n# Custom includes for extended configuration\n%s\n" "$INCLUDE_LINE" >> "$SMB_CONF"
+fi
+
+log "Reloading Samba configuration..."
+for svc in smbd nmbd; do
+    systemctl try-reload-or-restart "$svc".service 2> /dev/null || true
+done
 
 log "Detecting primary user..."
 PRIMARY_USER=$( getent passwd 1000 | cut -d: -f1 )
@@ -25,19 +38,6 @@ if [ -n "$PRIMARY_USER" ]; then
 else
     log "No primary user found."
 fi
-
-log "Configuring Samba..."
-
-# Insert include line if not present
-if ! grep -qF "$INCLUDE_LINE" "$SMB_CONF"; then
-    log "Adding include directive to smb.conf"
-    printf "\n# Custom includes for extended configuration\n%s\n" "$INCLUDE_LINE" >> "$SMB_CONF"
-fi
-
-log "Reloading Samba configuration..."
-for svc in smbd nmbd; do
-    systemctl try-reload-or-restart "$svc".service 2> /dev/null || true
-done
 
 log "Done."
 exit 0
